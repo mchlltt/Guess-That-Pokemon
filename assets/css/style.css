@@ -1,0 +1,31 @@
+body {
+	background-color: black;
+	width: 100%;
+}
+
+.content {
+	background-color: lightgray;
+	border: 3px solid transparent;
+	border-radius: 10px;
+	margin: 3% auto;
+	min-height: 90vh;
+	max-width: 80%;
+}
+
+.row,
+.col-xs-12 {
+	width: 100%;
+}
+
+img {
+	height: auto;
+	width: 200px;
+}
+
+.results,
+.question-result,
+.correct-answer,
+.image,
+.restart {
+	display: none;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Super Fun Trivia</title>
+    <!-- For media queries in Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the jQuery Library -->
+    <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
+    <!-- Bootstrap CDN link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Google fonts -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Boogaloo" rel="stylesheet"> -->
+    <!-- Personal stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Favicon -->
+    <!-- <link rel="icon" href="assets/images/logo.png"> -->
+    <!-- Game script -->
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <header>
+            <h1 class="text-center">Trivia Time</h1>
+        </header>
+        <div class="row timer center-block">
+            <div class=col-xs-12>
+                <h3 class="text-center" id="timer"></h3>
+            </div>
+        </div>
+        <div class="row start center-block">
+            <div class="col-xs-12">
+                <button class="center-block btn btn-success" id="start-button">Start</button>
+            </div>
+        </div>
+        <div class="row question-display center-block">
+            <div class=col-xs-12>
+                <h2 class="text-center" id="question"></h2>
+                <h3 class="text-center option" id=0></h3>
+                <h3 class="text-center option" id=1></h3>
+                <h3 class="text-center option" id=2></h3>
+                <h3 class="text-center option" id=3></h3>
+            </div>
+        </div>
+        <div class="row question-result center-block">
+            <div class="col-xs-12">
+                <h3 class="text-center" id="question-win-loss"></h3>
+            </div>
+        </div>
+        <div class="row correct-answer center-block">
+            <div class="col-xs-12">
+                <h3 class="text-center" id="correct-answer"></h3>
+            </div>
+        </div>
+        <div class="row image center-block">
+            <div class="col-xs-12">
+                <img src="#" alt="#" id="question-image" class="center-block">
+            </div>
+        </div>
+        <div class="row results center-block">
+            <div class="col-xs-12">
+                <h2 class="text-center">Results</h2>
+                <p class="text-center" id="questions-right"></p>
+                <p class="text-center" id="questions-wrong"></p>
+                <p class="text-center" id="questions-unanswered"></p>
+            </div>
+        </div>
+        <div class="row restart center-block">
+            <div class="col-xs-12">
+                <button class="center-block btn btn-info" id="restart-button">Start Over</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
