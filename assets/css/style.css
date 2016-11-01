@@ -22,10 +22,8 @@ img {
 	width: 200px;
 }
 
-.results,
+.game-result,
 .question-result,
-.correct-answer,
-.image,
 .restart {
 	display: none;
 }

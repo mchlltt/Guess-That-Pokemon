@@ -2,71 +2,71 @@ $(document).ready(function() {
     // Object with all questions and question data.
     var questions = [{
         id: 0,
-        question: 'What is a good trivia question?',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?0',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q1.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 1,
-        question: 'fuck what is happening',
+        text: 'er what is happening',
         answers: ['1', '2', '3', '4'],
         src: 'q2.png',
         alt: 'bloop',
         correctAnswerIndex: 0
     }, {
         id: 2,
-        question: 'What is a good trivia question?',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?2',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q1.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 3,
-        question: 'What is a good trivia question?3',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?3',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q3.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 4,
-        question: 'What is a good trivia question?4',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?4',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q4.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 5,
-        question: 'What is a good trivia question?5',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?5',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q5.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 6,
-        question: 'What is a good trivia question?6',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?6',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q6.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 7,
-        question: 'What is a good trivia question?7',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?7',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q7.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 8,
-        question: 'What is a good trivia question?8',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?8',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q8.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
     }, {
         id: 9,
-        question: 'What is a good trivia question?9',
-        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        text: 'What is a good trivia question?9',
+        answers: ['who knows', 'who cares', 'idek', 'ummm'],
         src: 'q9.png',
         alt: 'boop doop',
         correctAnswerIndex: 2
@@ -88,19 +88,16 @@ $(document).ready(function() {
         selectQuestion: function() {
             // Randomly select one of the unasked questions.
             var questionIndex = Math.floor(Math.random() * game.questionsUnasked.length);
-            console.log(questionIndex);
             // Get its ID in questions.
             var id = game.questionsUnasked[questionIndex];
-            console.log(id);
             // Set the currentQuestion object to this question.
             var lookup = {};
             for (var i = 0; i < questions.length; i++) {
                 lookup[questions[i].id] = questions[i];
             }
-            var theID = lookup[id];
+            currentQuestion = lookup[id];
             // Remove the question's ID from the unasked questions.
             game.questionsUnasked.splice(questionIndex, 1);
-            return theID;
         },
 
         isCorrect: function(answerIndex) {
@@ -112,14 +109,14 @@ $(document).ready(function() {
             }
         },
 
-        updateScores: function(result) {
+        updateScores: function(correct) {
             // Increment appropriate score counter variable.
-            if (result === 'correct') {
-                answersCorrect++;
-            } else if (result === 'incorrect') {
-                answersIncorrect++;
-            } else if (result === 'unanswered') {
-                answersTimedOut++;
+            if (correct) {
+                game.answersCorrect++;
+            } else if (!correct) {
+                game.answersIncorrect++;
+            } else {
+                game.answersTimedOut++;
             }
         }
     };
@@ -129,6 +126,7 @@ $(document).ready(function() {
     // Timeout and interval object
     var timer = {
         start: function() {
+            timer.countDown();
             counter = setInterval(timer.countDown, 1000);
         },
         stop: function() {
@@ -150,11 +148,24 @@ $(document).ready(function() {
         displayTimer: function(time) {
             $('#timer').text(30 - time);
         },
-        displayQuestion: function(question) {
-            console.log(question.question);
+        displayQuestion: function() {
+            $('#question').text(currentQuestion.text);
+            $('#0').text(currentQuestion.answers[0]);
+            $('#1').text(currentQuestion.answers[1]);
+            $('#2').text(currentQuestion.answers[2]);
+            $('#3').text(currentQuestion.answers[3]);
         },
-        displayAnswer: function() {
-
+        displayAnswer: function(correct) {
+            $('.question-display').hide();
+            $('.timer').hide();
+            $('.question-result').show();
+            $('#question-image').attr('src', currentQuestion.src);
+            $('#question-image').attr('alt',currentQuestion.alt);
+            if (correct) {
+                $('#question-win-loss').text('Correct!');
+            } else {
+                $('#question-win-loss').text('Incorrect...');
+            }
         },
         displayResults: function() {
 
@@ -162,18 +173,18 @@ $(document).ready(function() {
         displayNewGame: function() {
 
         },
-        callDOMFunctions: function(event,question) {
-            if (event === 'start') {
-                DOMFunctions.displayQuestion(question);
+        callDOMFunctions: function(event,correct) {
+            if (event === 'startGame') {
+                $('.start').hide();
+                DOMFunctions.displayQuestion();
             } else if (event === 'questionAnswered') {
-
+                DOMFunctions.displayAnswer(correct);
+            } else if (event === 'newQuestion') {
+                console.log('newq');
             }
         }
 
-
     };
-
-
 
 
     // Function Calls
@@ -181,18 +192,19 @@ $(document).ready(function() {
 
     // On-click events
     $('#start-button').on('click', function() {
-        var firstQuestion = game.selectQuestion();
-        DOMFunctions.callDOMFunctions(event = 'start',question = firstQuestion);
+        game.selectQuestion();
+        DOMFunctions.callDOMFunctions(event = 'startGame');
         timer.start();
     });
 
     // When you select an answer,
-    $('.answer').on('click', function() {
-        console.log(this.id);
+    $('.option').on('click', function() {
+        var correct = game.isCorrect(parseInt(this.id,10));
+        timer.stop();
+        DOMFunctions.callDOMFunctions(event = 'questionAnswered',correct = correct);
+        game.updateScores(correct);
+        setTimeout(DOMFunctions.callDOMFunctions(event = 'newQuestion'), 3000);
     });
-    // Call game.isCorrect();
-    // Call game.updateScores();
-    // Call DOM writer with event 'answered'
 
     // When you click start over button,
     // Call game.resetGame();
