@@ -14,6 +14,62 @@ $(document).ready(function() {
         src: 'q2.png',
         alt: 'bloop',
         correctAnswerIndex: 0
+    }, {
+        id: 2,
+        question: 'What is a good trivia question?',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q1.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 3,
+        question: 'What is a good trivia question?3',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q3.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 4,
+        question: 'What is a good trivia question?4',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q4.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 5,
+        question: 'What is a good trivia question?5',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q5.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 6,
+        question: 'What is a good trivia question?6',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q6.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 7,
+        question: 'What is a good trivia question?7',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q7.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 8,
+        question: 'What is a good trivia question?8',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q8.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
+    }, {
+        id: 9,
+        question: 'What is a good trivia question?9',
+        answers: ['who knows', 'who cares', 'idek', 'phuck'],
+        src: 'q9.png',
+        alt: 'boop doop',
+        correctAnswerIndex: 2
     }];
 
     // Variable accessible in all scopes with current question content.
@@ -31,13 +87,20 @@ $(document).ready(function() {
         // Methods
         selectQuestion: function() {
             // Randomly select one of the unasked questions.
-            var questionIndex = Math.floor(Math.random()) * questionsUnasked.length;
+            var questionIndex = Math.floor(Math.random() * game.questionsUnasked.length);
+            console.log(questionIndex);
             // Get its ID in questions.
-            var questionID = questionsUnasked[questionIndex];
+            var id = game.questionsUnasked[questionIndex];
+            console.log(id);
             // Set the currentQuestion object to this question.
-            currentQuestion = questions.find(this.id === questionID);
+            var lookup = {};
+            for (var i = 0; i < questions.length; i++) {
+                lookup[questions[i].id] = questions[i];
+            }
+            var theID = lookup[id];
             // Remove the question's ID from the unasked questions.
             game.questionsUnasked.splice(questionIndex, 1);
+            return theID;
         },
 
         isCorrect: function(answerIndex) {
@@ -61,33 +124,34 @@ $(document).ready(function() {
         }
     };
 
+    var count = -1;
+
     // Timeout and interval object
     var timer = {
-        start: function(length) {
+        start: function() {
             counter = setInterval(timer.countDown, 1000);
-            var length
-            timer.countDown();
         },
         stop: function() {
-
-        },
-        reset: function() {
-
+            clearInterval(counter);
+            count = -1;
         },
         countDown: function() {
-        	
-
+            count++;
+            DOMFunctions.displayTimer(count);
+            if (count == 30) {
+                timer.stop();
+            }
         },
     };
 
 
     // DOM writing object
     var DOMFunctions = {
-        displayTimer: function() {
-            console.log('timer');
+        displayTimer: function(time) {
+            $('#timer').text(30 - time);
         },
-        displayQuestion: function() {
-            console.log('question');
+        displayQuestion: function(question) {
+            console.log(question.question);
         },
         displayAnswer: function() {
 
@@ -98,10 +162,9 @@ $(document).ready(function() {
         displayNewGame: function() {
 
         },
-        callDOMFunctions: function(event) {
+        callDOMFunctions: function(event,question) {
             if (event === 'start') {
-                DOMFunctions.displayTimer();
-                DOMFunctions.displayQuestion();
+                DOMFunctions.displayQuestion(question);
             } else if (event === 'questionAnswered') {
 
             }
@@ -118,8 +181,9 @@ $(document).ready(function() {
 
     // On-click events
     $('#start-button').on('click', function() {
-        console.log('start clicked');
-        DOMFunctions.callDOMFunctions(event = 'start');
+        var firstQuestion = game.selectQuestion();
+        DOMFunctions.callDOMFunctions(event = 'start',question = firstQuestion);
+        timer.start();
     });
 
     // When you select an answer,
