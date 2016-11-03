@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Super Fun Trivia</title>
+    <title>Obscure Word Trivia Game</title>
     <!-- For media queries in Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to the jQuery Library -->
@@ -11,7 +11,7 @@
     <!-- Bootstrap CDN link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Google fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Boogaloo" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
     <!-- Personal stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Favicon -->
@@ -23,10 +23,15 @@
 <body>
     <div class="content">
         <header>
-            <h1 class="text-center">Trivia Time</h1>
+            <h1 class="text-center">Obscure Word Quiz</h1>
         </header>
         <div class="row timer center-block">
-            <div class=col-xs-12>
+            <div class="col-xs-12">
+                <h3 class="text-center" id="intro-paragraph">This is a paragraph introducing the game.</h3>
+            </div>
+        </div>
+        <div class="row timer center-block">
+            <div class="col-xs-12">
                 <h3 class="text-center" id="timer"></h3>
             </div>
         </div>
@@ -38,10 +43,7 @@
         <div class="row question-display center-block">
             <div class=col-xs-12>
                 <h2 class="text-center" id="question"></h2>
-                <h3 class="text-center option" id=0 role="button"></h3>
-                <h3 class="text-center option" id=1 role="button"></h3>
-                <h3 class="text-center option" id=2 role="button"></h3>
-                <h3 class="text-center option" id=3 role="button"></h3>
+                <div class="answer-options"></div>
             </div>
         </div>
         <div class="row question-result center-block">
@@ -59,11 +61,11 @@
                 <img src="#" alt="#" id="question-image" class="center-block">
             </div>
         </div>
-        <div class="row game-result center-block">
+        <div class="row game-results center-block">
             <div class="col-xs-12">
                 <h2 class="text-center">Results</h2>
-                <p class="text-center" id="questions-right"></p>
-                <p class="text-center" id="questions-wrong"></p>
+                <p class="text-center" id="questions-correct"></p>
+                <p class="text-center" id="questions-incorrect"></p>
                 <p class="text-center" id="questions-unanswered"></p>
             </div>
         </div>
