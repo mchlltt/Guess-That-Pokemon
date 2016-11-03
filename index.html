@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Obscure Word Trivia Game</title>
+    <title>Pokemon Trivia</title>
     <!-- For media queries in Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to the jQuery Library -->
@@ -23,15 +23,16 @@
 <body>
     <div class="content">
         <header>
-            <h1 class="text-center">Obscure Word Quiz</h1>
+            <h1 class="text-center">Guess that Pokemon!</h1>
         </header>
-        <div class="row timer center-block">
+        <div class="row start center-block">
             <div class="col-xs-12">
-                <h3 class="text-center" id="intro-paragraph">This is a paragraph introducing the game.</h3>
+                <h3 class="text-center" id="intro-paragraph">Can you guess Pokemon based on their silhouettes?</h3>
             </div>
         </div>
         <div class="row timer center-block">
             <div class="col-xs-12">
+                <img src="assets/images/loading.gif" class="loading-image center-block">
                 <h3 class="text-center" id="timer"></h3>
             </div>
         </div>
@@ -40,15 +41,14 @@
                 <button class="center-block btn btn-success" id="start-button">Start</button>
             </div>
         </div>
-        <div class="row question-display center-block">
-            <div class=col-xs-12>
-                <h2 class="text-center" id="question"></h2>
-                <div class="answer-options"></div>
-            </div>
-        </div>
         <div class="row question-result center-block">
             <div class="col-xs-12">
                 <h3 class="text-center" id="question-win-loss"></h3>
+            </div>
+        </div>
+        <div class="row question-display center-block">
+            <div class="col-xs-12">
+                <img src="#" alt="#" class="center-block question-image">
             </div>
         </div>
         <div class="row question-result center-block">
@@ -56,9 +56,9 @@
                 <h3 class="text-center" id="correct-answer"></h3>
             </div>
         </div>
-        <div class="row question-result center-block">
-            <div class="col-xs-12">
-                <img src="#" alt="#" id="question-image" class="center-block">
+        <div class="row answer-display center-block">
+            <div class=col-xs-12>
+                <div class="answer-options"></div>
             </div>
         </div>
         <div class="row game-results center-block">
@@ -71,7 +71,7 @@
         </div>
         <div class="row restart center-block">
             <div class="col-xs-12">
-                <button class="center-block btn btn-info" id="restart-button">Start Over</button>
+                <button class="center-block btn btn-info" id="restart-button">Keep Playing!</button>
             </div>
         </div>
     </div>

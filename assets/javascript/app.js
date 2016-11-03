@@ -1,69 +1,15 @@
 $(document).ready(function() {
-    // Object with all questions and question data.
-    var questions = [{
-        id: 0,
-        text: 'Trumpery',
-        answers: ['Luggage designed for carrying an instrument', 'Worthless nonsense', 'The act of being more important than someone else', 'A place where trumpets are serviced'],
-        alt: 'boop doop',
-        correctAnswerIndex: 1
-    }, {
-        id: 1,
-        text: 'Borborygmus',
-        answers: ['A mythical horned sea creature', 'A rumbling sound in the intenstines', 'A lump on the skin', 'A scarring of the bronchial tubes'],
-        alt: 'bloop',
-        correctAnswerIndex: 1
-    }, {
-        id: 2,
-        text: 'Mumpsimus',
-        answers: ['One who steals things that are not very valuable', 'A notion that is held even though it\'s unreasonable', 'Talk that is not meaningful or important', 'An organ donor'],
-        alt: 'boop doop',
-        correctAnswerIndex: 1
-    }, {
-        id: 3,
-        text: 'Crapulence',
-        answers: ['Sickness caused by excessive eating or drinking', 'A rupturing of the intenstines', 'Ownership of excessive amounts of jewels', 'A gambling addiction'],
-        alt: 'boop doop',
-        correctAnswerIndex: 0
-    }, {
-        id: 4,
-        text: 'Slubber',
-        answers: ['To fumble with one\'s words', 'To lose confidence', 'To lose focus', 'To perform carelessly'],
-        alt: 'boop doop',
-        correctAnswerIndex: 3
-    }, {
-        id: 5,
-        text: 'Folderol',
-        answers: ['A kitchen tool used to crush garlic', 'Excessive confidence', 'Foolish words or ideas', 'A machine used to treat stomach cramps'],
-        alt: 'boop doop',
-        correctAnswerIndex: 2
-    }, {
-        id: 6,
-        text: 'Yclept',
-        answers: ['An archaic name for a bartender', 'To confuse one person for another', 'A heinous crime', 'To call or be named'],
-        alt: 'boop doop',
-        correctAnswerIndex: 3
-    }, {
-        id: 7,
-        text: 'Usufruct',
-        answers: ['The right to use or enjoy something', 'An area where trains park', 'A citrus fruit used in cold climates', 'The act of breaching a contract'],
-        alt: 'boop doop',
-        correctAnswerIndex: 0
-    }, {
-        id: 8,
-        text: 'Quodlibet',
-        answers: ['A piece of music containing several different melodies', 'A flat outdoor area for recreational activities', 'A geometric shape', 'The act of going to a far extent'],
-        alt: 'boop doop',
-        correctAnswerIndex: 0
-    }, {
-        id: 9,
-        text: 'Gardyloo',
-        answers: ['A collection of tulips', 'A guest outhouse', 'An herb that grows in tropical climates', 'A warning cry'],
-        alt: 'boop doop',
-        correctAnswerIndex: 3
-    }];
+
+    var queryMethod = 'GET';
+    var queryURL = 'http://pokeapi.co/api/v2/pokemon/';
 
     // Global variable with current question content.
-    var currentQuestion = {};
+    var currentQuestion = {
+        name: '',
+        ids: [],
+        answers: [],
+        answerIndex: ''
+    };
 
     // Global variable with current scores.
     var answersCorrect = 0;
@@ -74,34 +20,46 @@ $(document).ready(function() {
     // Game logic object.
     var game = {
         // Variables
-        questionsUnasked: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-
+        questionsAsked: 0,
         // Methods
         selectQuestion: function() {
             // Verify that there are questions left to answer.
-            if (game.questionsUnasked.length === 0) {
+            if (game.questionsAsked === 10) {
                 DOMFunctions.callDOMFunctions('gameComplete');
             } else {
-                // Randomly select one of the unasked questions.
-                var questionIndex = Math.floor(Math.random() * game.questionsUnasked.length);
-                // Get its ID in questions.
-                var id = game.questionsUnasked[questionIndex];
-                // Set the global currentQuestion object to this question.
-                var lookup = {};
-                for (var i = 0; i < questions.length; i++) {
-                    lookup[questions[i].id] = questions[i];
+                game.questionsAsked++;
+                // Randomly select 4 unique numbers between 1 and 721.
+                var idArray = [];
+                while (idArray.length < 4) {
+                    var pokemonID = Math.ceil(Math.random() * 721);
+                    if (idArray.indexOf(pokemonID) !== -1) continue;
+                    idArray.push(pokemonID);
                 }
-                currentQuestion = lookup[id];
-                // Remove the question's ID from the unasked questions.
-                game.questionsUnasked.splice(questionIndex, 1);
+                // Randomly select which of the IDs will be the answer.
+                currentQuestion.answerIndex = Math.floor(Math.random() * 4);
+                // Push the name and id of all four elements to the possible answers array.
+                idArray.forEach(function(element) {
+                    $.ajax(url = queryURL + element + '/', method = queryMethod)
+                        .done(function(response) {
+                            currentQuestion.answers.push(response.species.name);
+                            currentQuestion.ids.push(response.id);
+                            game.startQuestion();
+                        });
+                });
+            }
+        },
+
+        startQuestion: function() {
+            if (currentQuestion.ids.length === 4) {
+                $('.loading-image').hide();
                 DOMFunctions.callDOMFunctions(event = 'newQuestion');
                 timer.start();
             }
         },
 
-        isCorrect: function(answerIndex) {
+        isCorrect: function(answer) {
             // Check whether the answer given is the correct answer.
-            if (answerIndex === currentQuestion.correctAnswerIndex) {
+            if (answer === currentQuestion.answers[currentQuestion.answerIndex]) {
                 return true;
             } else {
                 return false;
@@ -117,10 +75,12 @@ $(document).ready(function() {
             } else {
                 answersTimedOut++;
             }
+            currentQuestion.answers = [];
+            currentQuestion.ids = [];
         },
 
         resetGame: function() {
-            game.questionsUnasked = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+            game.questionsAsked = 0;
             game.answersCorrect = 0;
             game.answersIncorrect = 0;
             game.answersTimedOut = 0;
@@ -129,7 +89,7 @@ $(document).ready(function() {
 
     // Timeout and interval object
     var timer = {
-        count: 31,
+        count: 9,
         start: function() {
             timer.decrement();
             counter = setInterval(timer.decrement, 1000);
@@ -145,7 +105,7 @@ $(document).ready(function() {
         },
         stop: function() {
             clearInterval(counter);
-            timer.count = 31;
+            timer.count = 9;
         },
     };
 
@@ -155,25 +115,30 @@ $(document).ready(function() {
         displayTimer: function(timeRemaining) {
             $('#timer').text(timeRemaining);
         },
+        displayLoadingGIF: function() {
+            $('.loading-image').css('display', 'block');
+        },
         displayQuestion: function() {
-            $('#question').text(currentQuestion.text);
+            $('.answer-display').show();
             $('.answer-options').empty();
-            for (var i=0;i<currentQuestion.answers.length;i++) {
+            $('.question-image').attr('src', 'assets/images/' + currentQuestion.ids[currentQuestion.answerIndex] + '.png');
+            $('.question-image').attr('alt', 'A mystery Pokemon\'s silhouette');
+            for (var i = 0; i < currentQuestion.answers.length; i++) {
                 option = $('<h3>');
                 option.text(currentQuestion.answers[i]);
-                option.attr('data-index', i);
                 option.addClass('text-center option');
-                option.attr('role','button');
+                option.attr('role', 'button');
+                option.attr('data-name', currentQuestion.answers[i]);
                 $('.answer-options').append(option);
             }
         },
         displayAnswer: function(correct) {
-            $('.question-display').hide();
             $('.timer').hide();
+            $('.answer-display').hide();
             $('.question-result').show();
-            $('#correct-answer').text('Definition: ' + currentQuestion.answers[currentQuestion.correctAnswerIndex]);
-            $('#question-image').attr('src', 'assets/images/' + currentQuestion.text + '.png');
-            $('#question-image').attr('alt', currentQuestion.alt);
+            $('#correct-answer').text('It\'s ' + currentQuestion.answers[currentQuestion.answerIndex] + '!');
+            $('.question-image').toggleClass('silhouette');
+            $('.question-image').attr('alt', 'An image of ' + currentQuestion.answers[currentQuestion.answerIndex]);
             if (correct === true) {
                 $('#question-win-loss').text('Correct!');
             } else if (correct === false) {
@@ -181,15 +146,17 @@ $(document).ready(function() {
             } else {
                 $('#question-win-loss').text('Time\'s Up!');
             }
-            setTimeout(displayNextQuestion, 3000);
+            setTimeout(game.selectQuestion, 2000);
         },
         hideAnswer: function() {
             $('.question-display').show();
             $('.timer').show();
             $('.question-result').hide();
+            $('.question-image').toggleClass('silhouette');
         },
         displayResults: function() {
             $('.question-display').hide();
+            $('.timer').hide();
             $('.game-results').show();
             $('#questions-correct').text('Correct: ' + answersCorrect);
             $('#questions-incorrect').text('Incorrect: ' + answersIncorrect);
@@ -199,11 +166,12 @@ $(document).ready(function() {
         displayNewGame: function() {
             $('.restart').hide();
             $('.game-results').hide();
-            $('#start-button').show();
+            $('.start').show();
         },
         callDOMFunctions: function(event, correct) {
             if (event === 'startGame') {
                 $('.start').hide();
+                DOMFunctions.displayLoadingGIF();
             } else if (event === 'newQuestion') {
                 DOMFunctions.displayQuestion();
                 DOMFunctions.hideAnswer();
@@ -218,19 +186,17 @@ $(document).ready(function() {
         }
     };
 
-
     // On-click events
     // When the start button is clicked.
     $('#start-button').on('click', function() {
         DOMFunctions.callDOMFunctions(event = 'startGame');
-        displayNextQuestion();
+        game.selectQuestion();
     });
 
     // When an answer is clicked.
     $(document).on('click', '.option', function() {
-        var answerIndex = $(this).data('index');
-        answerIndex = parseInt(answerIndex, 10);
-        var answerCorrectness = game.isCorrect(answerIndex);
+        var answerText = $(this).data('name');
+        var answerCorrectness = game.isCorrect(answerText);
         timer.stop();
         DOMFunctions.callDOMFunctions(event = 'questionAnswered', correct = answerCorrectness);
         game.updateScores(answerCorrectness);
@@ -239,12 +205,7 @@ $(document).ready(function() {
     // When the start over button is clicked.
     $('#restart-button').on('click', function() {
         game.resetGame();
-        call.DOMFunctions.DOMFunctions(event = 'restartClicked');
+        DOMFunctions.callDOMFunctions(event = 'restartClicked');
     });
-
-    var displayNextQuestion = function() {
-        game.selectQuestion();
-    };
-
 
 });

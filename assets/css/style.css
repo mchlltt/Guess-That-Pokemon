@@ -1,34 +1,53 @@
 body {
-	background-color: black;
-	font-family: 'Itim', Arial, Verdana;
-	width: 100%;
+    background-color: black;
+    font-family: 'Itim', Arial, Verdana;
+    width: 100%;
 }
 
 .content {
-	background-color: lightgray;
-	border: 3px solid transparent;
-	border-radius: 10px;
-	margin: 3% auto;
-	max-width: 80%;
-	min-height: 90vh;
+    background-color: lightgray;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    margin: 3% auto;
+    max-width: 80%;
+    min-height: 90vh;
 }
 
 .row,
 .col-xs-12 {
-	width: 100%;
+    width: 100%;
 }
 
-img {
-	height: auto;
-	width: 200px;
+.question-image {
+    height: auto;
+    -webkit-filter: none;
+    -webkit-transition: -webkit-filter 0.4s ease-in;
+    width: 200px;
 }
 
+.silhouette {
+	-webkit-filter: contrast(0%) brightness(20%);
+	-webkit-transition: -webkit-filter 0s;
+}
+
+.loading-image,
 .game-results,
+.question-display,
+.answer-display,
 .question-result,
 .restart {
-	display: none;
+    display: none;
 }
 
 p {
-	font-size: 16px;
+    font-size: 24px;
+}
+
+.loading-image {
+    height: auto;
+    width: 50px;
+}
+
+h2 {
+    font-weight: bolder;
 }
