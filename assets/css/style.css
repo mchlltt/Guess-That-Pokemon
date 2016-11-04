@@ -1,16 +1,25 @@
 body {
-    background-color: black;
-    font-family: 'Itim', Arial, Verdana;
+    background: red url('../images/background.png');
+	background-size: cover;
+	background-clip: content-box;
+	background-position: center center;
+	background-repeat: no-repeat;
+    font-family: 'Comfortaa', Arial, Verdana;
     width: 100%;
+    min-height: 100vh;
+    padding: 3vh 3vw;
+    display: flex;
+    align-items: center;
 }
 
 .content {
     background-color: lightgray;
-    border: 3px solid transparent;
+    background-color: rgba(255,255,255,.5);
+    border: 0px solid transparent;
     border-radius: 10px;
-    margin: 3% auto;
-    max-width: 80%;
-    min-height: 90vh;
+    min-height: 100%;
+    width: 100%;
+    padding: 1%;
 }
 
 .row,
@@ -22,7 +31,7 @@ body {
     height: auto;
     -webkit-filter: none;
     -webkit-transition: -webkit-filter 0.4s ease-in;
-    width: 200px;
+    width: 30%;
 }
 
 .silhouette {
@@ -45,9 +54,22 @@ p {
 
 .loading-image {
     height: auto;
-    width: 50px;
+    width: 100px;
 }
 
 h2 {
     font-weight: bolder;
+}
+
+.game-results {
+	background-color: none;
+	background-color: rgba(0,0,0,.2);
+	border: 0px solid transparent;
+	border-radius: 10px;
+	margin: 1% auto;
+	max-width: 80%;
+}
+
+.btn p {
+	margin: 0;
 }

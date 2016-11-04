@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Pokemon Trivia</title>
+    <title>Guess the Pokemon!</title>
     <!-- For media queries in Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to the jQuery Library -->
@@ -11,23 +11,23 @@
     <!-- Bootstrap CDN link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
     <!-- Personal stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Favicon -->
-    <!-- <link rel="icon" href="assets/images/logo.png"> -->
+    <link rel="icon" href="assets/images/qmark.gif">
     <!-- Game script -->
     <script type="text/javascript" src="assets/javascript/app.js"></script>
 </head>
 
 <body>
-    <div class="content">
+    <div class="content center-block clearfix">
         <header>
-            <h1 class="text-center">Guess that Pokemon!</h1>
+            <h1 class="text-center">Who's that Pokemon?</h1>
         </header>
         <div class="row start center-block">
             <div class="col-xs-12">
-                <h3 class="text-center" id="intro-paragraph">Can you guess Pokemon based on their silhouettes?</h3>
+                <h3 class="text-center">Can you guess these Pokemon based on their silhouettes?</h3>
             </div>
         </div>
         <div class="row timer center-block">
@@ -38,7 +38,7 @@
         </div>
         <div class="row start center-block">
             <div class="col-xs-12">
-                <button class="center-block btn btn-success" id="start-button">Start</button>
+                <button class="center-block btn btn-success" id="start-button"><p>Start<p></button>
             </div>
         </div>
         <div class="row question-result center-block">
@@ -71,7 +71,7 @@
         </div>
         <div class="row restart center-block">
             <div class="col-xs-12">
-                <button class="center-block btn btn-info" id="restart-button">Keep Playing!</button>
+                <button class="center-block btn btn-info" id="restart-button"><p>Keep Playing!</p></button>
             </div>
         </div>
     </div>

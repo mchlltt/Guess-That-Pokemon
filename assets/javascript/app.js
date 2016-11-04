@@ -52,6 +52,7 @@ $(document).ready(function() {
         startQuestion: function() {
             if (currentQuestion.ids.length === 4) {
                 $('.loading-image').hide();
+                $('.content').css('min-height','80vh');
                 DOMFunctions.callDOMFunctions(event = 'newQuestion');
                 timer.start();
             }
