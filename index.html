@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Guess the Pokemon!</title>
-    <!-- For media queries in Bootstrap -->
+    <!-- For media queries. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to the jQuery Library -->
     <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
@@ -22,45 +22,56 @@
 
 <body>
     <div class="content center-block clearfix">
+        <!-- Header -->
         <header>
             <h1 class="text-center">Who's that Pokemon?</h1>
         </header>
+        <!-- Game intro -->
         <div class="row start center-block">
             <div class="col-xs-12">
                 <h3 class="text-center">Can you guess these Pokemon based on their silhouettes?</h3>
             </div>
         </div>
+        <!-- Loading GIF and timer -->
         <div class="row timer center-block">
             <div class="col-xs-12">
-                <img src="assets/images/loading.gif" class="loading-image center-block">
-                <h3 class="text-center" id="timer"></h3>
+                <img src="assets/images/loading.gif" alt="Spinning pokeball loading image" class="loading-image center-block">
+                <h2 class="text-center" id="timer"></h2>
             </div>
         </div>
+        <!-- Start button -->
         <div class="row start center-block">
             <div class="col-xs-12">
-                <button class="center-block btn btn-success" id="start-button"><p>Start<p></button>
+                <button class="center-block btn btn-danger" id="start-button">
+                    <p>Start</p>
+                </button>
             </div>
         </div>
+        <!-- Question result -->
         <div class="row question-result center-block">
             <div class="col-xs-12">
-                <h3 class="text-center" id="question-win-loss"></h3>
+                <h2 class="text-center" id="question-win-loss"></h2>
             </div>
         </div>
+        <!-- Image display -->
         <div class="row question-display center-block">
             <div class="col-xs-12">
                 <img src="#" alt="#" class="center-block question-image">
             </div>
         </div>
-        <div class="row question-result center-block">
-            <div class="col-xs-12">
-                <h3 class="text-center" id="correct-answer"></h3>
-            </div>
-        </div>
+        <!-- Answer options -->
         <div class="row answer-display center-block">
             <div class=col-xs-12>
                 <div class="answer-options"></div>
             </div>
         </div>
+        <!-- Correct answer -->
+        <div class="row question-result center-block">
+            <div class="col-xs-12">
+                <h1 class="text-center" id="correct-answer"></h1>
+            </div>
+        </div>
+        <!-- End of game results -->
         <div class="row game-results center-block">
             <div class="col-xs-12">
                 <h2 class="text-center">Results</h2>
@@ -69,9 +80,12 @@
                 <p class="text-center" id="questions-unanswered"></p>
             </div>
         </div>
+        <!-- Restart button -->
         <div class="row restart center-block">
             <div class="col-xs-12">
-                <button class="center-block btn btn-info" id="restart-button"><p>Keep Playing!</p></button>
+                <button class="center-block btn btn-info" id="restart-button">
+                    <p>Keep Playing!</p>
+                </button>
             </div>
         </div>
     </div>

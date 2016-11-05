@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    // AJAX parameters
     var queryMethod = 'GET';
     var queryURL = 'http://pokeapi.co/api/v2/pokemon/';
 
@@ -23,10 +24,11 @@ $(document).ready(function() {
         questionsAsked: 0,
         // Methods
         selectQuestion: function() {
-            // Verify that there are questions left to answer.
+            // Verify that the game is not done.
             if (game.questionsAsked === 10) {
                 DOMFunctions.callDOMFunctions('gameComplete');
             } else {
+                // Increment the number of questions asked.
                 game.questionsAsked++;
                 // Randomly select 4 unique numbers between 1 and 721.
                 var idArray = [];
@@ -35,10 +37,11 @@ $(document).ready(function() {
                     if (idArray.indexOf(pokemonID) !== -1) continue;
                     idArray.push(pokemonID);
                 }
-                // Randomly select which of the IDs will be the answer.
+                // Randomly select which of the 4 numbers will be the answer ID.
                 currentQuestion.answerIndex = Math.floor(Math.random() * 4);
-                // Push the name and id of all four elements to the possible answers array.
+                // For each ID, push the name and id to the possible answers array.
                 idArray.forEach(function(element) {
+                    // Query Pokeapi
                     $.ajax(url = queryURL + element + '/', method = queryMethod)
                         .done(function(response) {
                             currentQuestion.answers.push(response.species.name);
@@ -50,9 +53,12 @@ $(document).ready(function() {
         },
 
         startQuestion: function() {
+            // Once the fourth AJAX call has been made, start the question.
             if (currentQuestion.ids.length === 4) {
+                // Hide loading image
                 $('.loading-image').hide();
-                $('.content').css('min-height','80vh');
+                // Make sure content stays a fixed height.
+                $('.content').addClass('static-content');
                 DOMFunctions.callDOMFunctions(event = 'newQuestion');
                 timer.start();
             }
@@ -76,11 +82,13 @@ $(document).ready(function() {
             } else {
                 answersTimedOut++;
             }
+            // Clear answer and answer ID arrays.
             currentQuestion.answers = [];
             currentQuestion.ids = [];
         },
 
         resetGame: function() {
+            // Reset game-wide variables.
             game.questionsAsked = 0;
             game.answersCorrect = 0;
             game.answersIncorrect = 0;
@@ -90,20 +98,23 @@ $(document).ready(function() {
 
     // Timeout and interval object
     var timer = {
+        // Count begins at 8.
         count: 9,
         start: function() {
             timer.decrement();
             counter = setInterval(timer.decrement, 1000);
         },
+        // Decrease time by one per second. If the time hits 0, stop timer.
         decrement: function() {
             timer.count--;
-            DOMFunctions.displayTimer(timeRemaining = timer.count);
+            DOMFunctions.callDOMFunctions(event = 'countDown', correct = null, timeRemaining = timer.count);
             if (timer.count === 0) {
                 timer.stop();
                 DOMFunctions.callDOMFunctions(event = 'questionAnswered', correct = '');
                 game.updateScores();
             }
         },
+        // Clear interval and reset count.
         stop: function() {
             clearInterval(counter);
             timer.count = 9;
@@ -113,19 +124,25 @@ $(document).ready(function() {
 
     // DOM writing object
     var DOMFunctions = {
-        displayTimer: function(timeRemaining) {
+        displayTimer: function() {
+            $('.timer').css('display', 'block');
+        },
+        displayTimeLeft: function(timeRemaining) {
             $('#timer').text(timeRemaining);
         },
         displayLoadingGIF: function() {
+            $('.timer').css('display', 'block');
             $('.loading-image').css('display', 'block');
         },
         displayQuestion: function() {
             $('.answer-display').show();
             $('.answer-options').empty();
+            // Set image src and alt.
             $('.question-image').attr('src', 'assets/images/' + currentQuestion.ids[currentQuestion.answerIndex] + '.png');
             $('.question-image').attr('alt', 'A mystery Pokemon\'s silhouette');
+            // Add each question.
             for (var i = 0; i < currentQuestion.answers.length; i++) {
-                option = $('<h3>');
+                option = $('<p>');
                 option.text(currentQuestion.answers[i]);
                 option.addClass('text-center option');
                 option.attr('role', 'button');
@@ -138,8 +155,11 @@ $(document).ready(function() {
             $('.answer-display').hide();
             $('.question-result').show();
             $('#correct-answer').text('It\'s ' + currentQuestion.answers[currentQuestion.answerIndex] + '!');
+            // Remove silhouette class.
             $('.question-image').toggleClass('silhouette');
+            // Set image alt.
             $('.question-image').attr('alt', 'An image of ' + currentQuestion.answers[currentQuestion.answerIndex]);
+            // Show whether the answer was correct.
             if (correct === true) {
                 $('#question-win-loss').text('Correct!');
             } else if (correct === false) {
@@ -147,18 +167,22 @@ $(document).ready(function() {
             } else {
                 $('#question-win-loss').text('Time\'s Up!');
             }
-            setTimeout(game.selectQuestion, 2000);
+            // Start selecting a new question a second later.
+            setTimeout(game.selectQuestion, 1000);
         },
         hideAnswer: function() {
+            // Hide answer section.
             $('.question-display').show();
             $('.timer').show();
             $('.question-result').hide();
+            // Retoggle silhouette class.
             $('.question-image').toggleClass('silhouette');
         },
         displayResults: function() {
             $('.question-display').hide();
             $('.timer').hide();
             $('.game-results').show();
+            // Display answer counts.
             $('#questions-correct').text('Correct: ' + answersCorrect);
             $('#questions-incorrect').text('Incorrect: ' + answersIncorrect);
             $('#questions-unanswered').text('Unanswered: ' + answersTimedOut);
@@ -169,13 +193,17 @@ $(document).ready(function() {
             $('.game-results').hide();
             $('.start').show();
         },
-        callDOMFunctions: function(event, correct) {
+        callDOMFunctions: function(event, correct, timeRemaining) {
+            // Pipe calls from outside the object to the correct function.
             if (event === 'startGame') {
                 $('.start').hide();
                 DOMFunctions.displayLoadingGIF();
             } else if (event === 'newQuestion') {
                 DOMFunctions.displayQuestion();
                 DOMFunctions.hideAnswer();
+                DOMFunctions.displayTimer();
+            } else if (event === 'countDown') {
+                DOMFunctions.displayTimeLeft(timeRemaining);
             } else if (event === 'questionAnswered') {
                 DOMFunctions.displayAnswer(correct);
             } else if (event === 'gameComplete') {
@@ -190,22 +218,31 @@ $(document).ready(function() {
     // On-click events
     // When the start button is clicked.
     $('#start-button').on('click', function() {
+        // Call start game DOM functions.
         DOMFunctions.callDOMFunctions(event = 'startGame');
+        // Select a question.
         game.selectQuestion();
     });
 
     // When an answer is clicked.
     $(document).on('click', '.option', function() {
+        // Record name attribute from selected answer.
         var answerText = $(this).data('name');
+        // Check if the answer is correct.
         var answerCorrectness = game.isCorrect(answerText);
+        // Stop timer.
         timer.stop();
+        // Call DOM question answered functions.
         DOMFunctions.callDOMFunctions(event = 'questionAnswered', correct = answerCorrectness);
+        // Update scores based on result.
         game.updateScores(answerCorrectness);
     });
 
     // When the start over button is clicked.
     $('#restart-button').on('click', function() {
+        // Reset game variables.
         game.resetGame();
+        // Reset DOM.
         DOMFunctions.callDOMFunctions(event = 'restartClicked');
     });
 
