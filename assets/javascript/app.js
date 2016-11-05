@@ -191,8 +191,9 @@ $(document).ready(function() {
         },
         displayNewGame: function() {
             $('.restart').hide();
-            $('#timer').hide();
-            $('question-image').addClass('silhouette');
+            $('#timer').text('');
+            $('.timer').hide();
+            $('.question-image').addClass('silhouette');
             $('.game-results').hide();
             $('.start').show();
         },
