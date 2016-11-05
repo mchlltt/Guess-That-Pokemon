@@ -7,3 +7,6 @@ The game can be played on Heroku at http://arcane-coast-88977.herokuapp.com/. Pl
 
 ##Disclaimer
 This is all the intellectual property of The Pokemon Company and is protected by various copyrights and trademarks.  The author believes that the use of this intellectual property for a fan reference is covered by fair use and that the software is significantly impaired without said property included.
+
+#### Grading note
+I intended to fade each revealed image out before the next image was shown, but was unable to complete this task before the deadline and had to remove the related code.
