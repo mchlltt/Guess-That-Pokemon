@@ -3,10 +3,9 @@ $(document).ready(function() {
     // Variables
     // Global variable with current question content.
     var currentQuestion = {
-        name: '',
         ids: [],
         answers: [],
-        answerIndex: ''
+        answerIndex: -1
     };
 
     // Global variable with current scores.
@@ -61,6 +60,9 @@ $(document).ready(function() {
             if (game.questionsAsked === 10) {
                 DOMFunctions.callDOMFunctions('gameComplete');
             } else {
+                // Clear answer and answer ID arrays.
+                currentQuestion.answers = [];
+                currentQuestion.ids = [];
                 // Increment the number of questions asked.
                 game.questionsAsked++;
                 // Randomly select 4 unique numbers between 1 and 721.
@@ -68,7 +70,7 @@ $(document).ready(function() {
                 while (idArray.length < 4) {
                     var pokemonID = Math.ceil(Math.random() * 721);
                     if (idArray.indexOf(pokemonID) !== -1) continue;
-                        idArray.push(pokemonID);
+                    idArray.push(pokemonID);
                 }
                 // Randomly select which of the 4 numbers will be the answer ID.
                 currentQuestion.answerIndex = Math.floor(Math.random() * 4);
@@ -113,9 +115,6 @@ $(document).ready(function() {
             } else {
                 answersTimedOut++;
             }
-            // Clear answer and answer ID arrays.
-            currentQuestion.answers = [];
-            currentQuestion.ids = [];
         },
 
         resetGame: function() {
