@@ -55,6 +55,10 @@ $(document).ready(function() {
         startQuestion: function() {
             // Once the fourth AJAX call has been made, start the question.
             if (currentQuestion.ids.length === 4) {
+                // Hide loading image
+                $('.loading-image').hide();
+                // Make sure content stays a fixed height.
+                $('.content').addClass('static-content');
                 DOMFunctions.callDOMFunctions(event = 'newQuestion');
                 timer.start();
             }
@@ -131,12 +135,6 @@ $(document).ready(function() {
             $('.loading-image').css('display', 'block');
         },
         displayQuestion: function() {
-            // Hide loading image, show question
-            $('.loading-image').hide();
-            $('.question-display').show();
-            // Make sure content stays a fixed height.
-            $('.content').addClass('static-content');
-            // Show answer options, empty any previous options.
             $('.answer-display').show();
             $('.answer-options').empty();
             // Set image src and alt.
@@ -174,6 +172,7 @@ $(document).ready(function() {
         },
         hideAnswer: function() {
             // Hide answer section.
+            $('.question-display').show();
             $('.timer').show();
             $('.question-result').hide();
             // Retoggle silhouette class.
