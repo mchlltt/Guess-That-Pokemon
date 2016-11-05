@@ -86,9 +86,9 @@ $(document).ready(function() {
         resetGame: function() {
             // Reset game-wide variables.
             game.questionsAsked = 0;
-            game.answersCorrect = 0;
-            game.answersIncorrect = 0;
-            game.answersTimedOut = 0;
+            answersCorrect = 0;
+            answersIncorrect = 0;
+            answersTimedOut = 0;
         }
     };
 
@@ -134,11 +134,11 @@ $(document).ready(function() {
             // Hide loading image, show question
             $('.loading-image').hide();
             $('.question-display').show();
-            // Make sure content stays a fixed height.
-            $('.content').addClass('static-content');
             // Show answer options, empty any previous options.
             $('.answer-display').show();
             $('.answer-options').empty();
+            // Retoggle silhouette class.
+            $('.question-image').addClass('silhouette');
             // Set image src and alt.
             $('.question-image').attr('src', 'assets/images/' + currentQuestion.ids[currentQuestion.answerIndex] + '.png');
             $('.question-image').attr('alt', 'A mystery Pokemon\'s silhouette');
@@ -169,15 +169,13 @@ $(document).ready(function() {
             } else {
                 $('#question-win-loss').text('Time\'s Up!');
             }
-            // Start selecting a new question a second later.
-            setTimeout(game.selectQuestion, 1000);
+            // Start selecting a new question 1.5 seconds later.
+            setTimeout(game.selectQuestion, 1500);
         },
         hideAnswer: function() {
             // Hide answer section.
             $('.timer').show();
             $('.question-result').hide();
-            // Retoggle silhouette class.
-            $('.question-image').toggleClass('silhouette');
         },
         displayResults: function() {
             $('.question-display').hide();

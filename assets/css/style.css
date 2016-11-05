@@ -41,15 +41,10 @@ h3 {
     background-color: rgba(255, 255, 255, .5);
     border: 0 solid transparent;
     border-radius: 10px;
-    min-height: 100%;
+    min-height: 94vh;
     min-width: 100%;
     padding: 1%;
 }
-
-.static-content {
-    min-height: 94vh;
-}
-
 
 /* Game CSS in appearance order. */
 
@@ -78,6 +73,7 @@ h3 {
 
 .silhouette {
     filter: contrast(0%) brightness(20%);
+    opacity: 1;
     transition: filter 0s;
 }
 
