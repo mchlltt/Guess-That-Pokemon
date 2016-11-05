@@ -67,9 +67,8 @@ $(document).ready(function() {
                 var idArray = [];
                 while (idArray.length < 4) {
                     var pokemonID = Math.ceil(Math.random() * 721);
-                    if (idArray.indexOf(pokemonID) !== -1) {
+                    if (idArray.indexOf(pokemonID) !== -1) continue;
                         idArray.push(pokemonID);
-                    }
                 }
                 // Randomly select which of the 4 numbers will be the answer ID.
                 currentQuestion.answerIndex = Math.floor(Math.random() * 4);
