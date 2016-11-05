@@ -86,8 +86,13 @@ h3 {
     background-color: rgba(0, 0, 0, .2);
     border: 0 solid transparent;
     border-radius: 10px;
-    margin: 1% auto;
-    max-width: 280px;
+    margin: 3% auto;
+    max-width: 380px;
+    padding: 3%;
+}
+
+.result {
+    text-decoration: underline;
 }
 
 
